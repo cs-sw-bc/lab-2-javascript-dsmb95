@@ -1,0 +1,162 @@
+/* ...existing code... */
+
+:root{
+  --bg:#f3f6fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#10b981;
+  --shadow: rgba(16,24,40,0.06);
+  --radius:12px;
+  --max-width:900px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+body{
+  background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 35%, #f97316 65%, #ef4444 100%);
+  background-size: 400% 400%;
+  animation: gradient 12s ease infinite;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* animated gradient keyframes */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Main centered wrapper */
+.wrap{
+  width:100%;
+  max-width:var(--max-width);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  padding:20px;
+}
+
+/* Title */
+h1{
+  margin:0;
+  font-size:clamp(1.25rem, 2.5vw, 2rem);
+  text-align:center;
+  color:#111827;
+  letter-spacing:0.2px;
+}
+
+/* Game container where the canvas will live */
+#game-container{
+  width:640px;
+  max-width:100%;
+  height:400px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  box-shadow: 0 18px 40px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+  overflow:hidden;
+  border: none;
+}
+
+/* animated colorful rim (soft, blurred) */
+#game-container::before{
+  content: "";
+  position: absolute;
+  inset: -3%;
+  border-radius: 22px;
+  background: conic-gradient(
+    from 90deg,
+    rgba(124,58,237,0.9),
+    rgba(6,182,212,0.9),
+    rgba(249,115,22,0.9),
+    rgba(239,68,68,0.9),
+    rgba(124,58,237,0.9)
+  );
+  filter: blur(18px) saturate(140%);
+  opacity: 0.9;
+  z-index: 0;
+  animation: rim-rotate 10s linear infinite;
+  pointer-events: none;
+}
+
+/* subtle inner overlay to improve contrast for the canvas */
+#game-container::after{
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Optional hint text inside #game-container */
+#game-container .hint{
+  color:var(--muted);
+  font-size:0.95rem;
+  opacity:0.85;
+  text-align:center;
+  pointer-events:none;
+}
+
+/* Canvas should fill the container and scale responsively */
+#game-canvas{
+  position: relative;
+  z-index: 2;
+  width:100%;
+  height:100%;
+  display:block;
+  border-radius:10px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+  background: linear-gradient(180deg,#071425 0%, #06131e 100%);
+  image-rendering: pixelated;
+}
+
+/* animated rim rotation keyframes */
+@keyframes rim-rotate{
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.02); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* small responsive tweak to preserve look on narrow screens */
+@media (max-width:480px){
+  #game-container{ height:320px; border-radius:14px; }
+  #game-canvas{ border-radius:8px; }
+}
+
+/* Controls or info area below the container (optional) */
+.controls{
+  width:100%;
+  max-width:640px;
+  display:flex;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+/* Small screens */
+@media (max-width:480px){
+  #game-container{ height:320px; }
+  .controls{ padding:0 8px; flex-direction:column; gap:8px; align-items:center; }
+}
+
+/* Focus styles for accessibility */
+#game-container:focus-within{ outline:3px solid rgba(16,185,129,0.12); outline-offset:4px; }
+
+/* ...existing code... */
